@@ -4,15 +4,15 @@ import { Repository } from 'typeorm';
 import { Address } from '../models/address.entity';
 
 @Injectable()
-export class AddressRepository {
+export class AddressesRepository {
   constructor(
     @InjectRepository(Address)
-    private addressRepository: Repository<Address>,
+    private addressesRepository: Repository<Address>,
   ) {}
 
   async createAddress(addressData: Partial<Address>): Promise<Address> {
-    const address = this.addressRepository.create(addressData);
-    return this.addressRepository.save(address);
+    const address = this.addressesRepository.create(addressData);
+    return this.addressesRepository.save(address);
   }
 
   async updateAddress(
@@ -23,19 +23,19 @@ export class AddressRepository {
     if (!address) {
       return null;
     }
-    this.addressRepository.merge(address, addressData);
-    return this.addressRepository.save(address);
+    this.addressesRepository.merge(address, addressData);
+    return this.addressesRepository.save(address);
   }
 
   async deleteAddress(address_id: number): Promise<void> {
-    await this.addressRepository.delete(address_id);
+    await this.addressesRepository.delete(address_id);
   }
 
   async getAddressById(address_id: number): Promise<Address> {
-    return this.addressRepository.findOne({ where: { address_id } });
+    return this.addressesRepository.findOne({ where: { address_id } });
   }
 
   async getAllAddresses(): Promise<Address[]> {
-    return this.addressRepository.find();
+    return this.addressesRepository.find();
   }
 }

@@ -4,15 +4,15 @@ import { Repository } from 'typeorm';
 import { Customer } from '../models/customer.entity';
 
 @Injectable()
-export class CustomerRepository {
+export class CustomersRepository {
   constructor(
     @InjectRepository(Customer)
-    private customerRepository: Repository<Customer>,
+    private customersRepository: Repository<Customer>,
   ) {}
 
   async createCustomer(customerData: Partial<Customer>): Promise<Customer> {
-    const customer = this.customerRepository.create(customerData);
-    return this.customerRepository.save(customer);
+    const customer = this.customersRepository.create(customerData);
+    return this.customersRepository.save(customer);
   }
 
   async updateCustomer(
@@ -23,22 +23,22 @@ export class CustomerRepository {
     if (!customer) {
       return null;
     }
-    this.customerRepository.merge(customer, customerData);
-    return this.customerRepository.save(customer);
+    this.customersRepository.merge(customer, customerData);
+    return this.customersRepository.save(customer);
   }
 
   async deleteCustomer(customer_id: number): Promise<void> {
-    await this.customerRepository.delete(customer_id);
+    await this.customersRepository.delete(customer_id);
   }
 
   async getCustomerById(customer_id: number): Promise<Customer> {
-    return this.customerRepository.findOne({
+    return this.customersRepository.findOne({
       where: { customer_id },
       relations: ['address'],
     });
   }
 
   async getAllCustomers(): Promise<Customer[]> {
-    return this.customerRepository.find({ relations: ['address'] });
+    return this.customersRepository.find({ relations: ['address'] });
   }
 }
