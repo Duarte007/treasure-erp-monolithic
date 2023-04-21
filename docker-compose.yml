@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: duarte
+      POSTGRES_PASSWORD: duartetcc
+      POSTGRES_DB: datastore
+    volumes:
+      - ./data:/var/lib/postgresql/data # Volume para armazenar os dados do PostgreSQL
+    ports:
+      - "5432:5432"
