@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAddressDto } from '../controllers/dto/create-address.dto';
 import { UpdateAddressDto } from '../controllers/dto/update-address.dto';
+import { AddressRepository } from '../repositories/address.repository';
 
 @Injectable()
 export class AddressesService {
+  constructor(private addressRepository: AddressRepository) {}
+
   create(createAddressDto: CreateAddressDto) {
-    return 'This action adds a new address';
+    return this.addressRepository.createAddress(createAddressDto);
   }
 
   findAll() {
-    return `This action returns all addresses`;
+    return this.addressRepository.getAllAddresses();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} address`;
+    return this.addressRepository.getAddressById(id);
   }
 
   update(id: number, updateAddressDto: UpdateAddressDto) {
-    return `This action updates a #${id} address`;
+    return this.addressRepository.updateAddress(id, updateAddressDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} address`;
+    return this.addressRepository.deleteAddress(id);
   }
 }

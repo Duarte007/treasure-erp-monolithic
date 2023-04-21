@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCustomerDto } from '../controllers/dto/create-customer.dto';
-import { UpdateCustomerDto } from '../controllers/dto/update-customer.dto';
+import { Customer } from '../models/customer.entity';
+import { CustomerRepository } from '../repositories/customer.repository';
 
 @Injectable()
 export class CustomersService {
-  create(createCustomerDto: CreateCustomerDto) {
-    return 'This action adds a new customer';
+  constructor(private customerRepository: CustomerRepository) {}
+
+  async create(customerData: Partial<Customer>): Promise<Customer> {
+    return this.customerRepository.createCustomer(customerData);
   }
 
-  findAll() {
-    return `This action returns all customers`;
+  async update(id: number, customerData: Partial<Customer>): Promise<Customer> {
+    return this.customerRepository.updateCustomer(id, customerData);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  async delete(id: number): Promise<void> {
+    await this.customerRepository.deleteCustomer(id);
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
+  async findOne(id: number): Promise<Customer> {
+    return this.customerRepository.getCustomerById(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
+  async findAll(): Promise<Customer[]> {
+    return this.customerRepository.getAllCustomers();
   }
 }
