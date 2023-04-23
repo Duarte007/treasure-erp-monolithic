@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -7,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Address } from './address.entity';
+import { BaseEntity } from './base.entity';
 
 @Entity({ name: 'customers' })
 export class Customer extends BaseEntity {
@@ -16,10 +16,13 @@ export class Customer extends BaseEntity {
   @Column({ length: 255 })
   customer_name: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, unique: true })
+  customer_document: string;
+
+  @Column({ length: 255, unique: true })
   customer_email: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, unique: true })
   customer_phone: string;
 
   @ManyToOne(() => Address)

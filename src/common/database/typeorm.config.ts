@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { Address } from '../../models/address.entity';
 import { Customer } from '../../models/customer.entity';
 import { OrderItem } from '../../models/order-items.entity';
@@ -14,7 +15,6 @@ import { Payment } from '../../models/payment.entity';
 import { Product } from '../../models/product.entity';
 import { Shipment } from '../../models/shipment.entity';
 import { Stock } from '../../models/stock.entity';
-import { DataBaseConnectionService } from './typeorm.config';
 
 const DATABASE_ENTITIES = [
   Customer,
@@ -33,13 +33,21 @@ const DATABASE_ENTITIES = [
   PaymentStatus,
 ];
 
-@Module({
-  imports: [
-    TypeOrmModule.forRootAsync({
-      useClass: DataBaseConnectionService,
-    }),
-    TypeOrmModule.forFeature(DATABASE_ENTITIES),
-  ],
-  exports: [TypeOrmModule],
-})
-export class DatabaseModule {}
+@Injectable()
+export class DataBaseConnectionService implements TypeOrmOptionsFactory {
+  constructor(private configService: ConfigService) {}
+
+  createTypeOrmOptions(): TypeOrmModuleOptions {
+    return {
+      type: 'postgres',
+      host: this.configService.get('DB_HOST'),
+      port: this.configService.get('DB_PORT'),
+      username: this.configService.get('DB_USERNAME'),
+      password: this.configService.get('DB_PASSWORD'),
+      database: this.configService.get('DB_DATABASE'),
+      synchronize: false,
+      logging: false,
+      entities: DATABASE_ENTITIES,
+    };
+  }
+}

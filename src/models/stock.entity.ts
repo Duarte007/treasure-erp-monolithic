@@ -1,11 +1,11 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BaseEntity } from './base.entity';
 import { Product } from './product.entity';
 
 @Entity({ name: 'stock' })

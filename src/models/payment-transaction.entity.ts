@@ -1,11 +1,11 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BaseEntity } from './base.entity';
 import { Payment } from './payment.entity';
 
 @Entity({ name: 'payment_transactions' })

@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -7,6 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BaseEntity } from './base.entity';
 import { Customer } from './customer.entity';
 import { OrderItem } from './order-items.entity';
 import { OrderStatus } from './order-status.entity';
@@ -30,7 +30,7 @@ export class Order extends BaseEntity {
   orderItems: OrderItem[];
 
   @OneToMany(() => Payment, (payment) => payment.order)
-  payments: OrderItem[];
+  payments: Payment[];
 
   @OneToMany(() => PaymentHistory, (paymentHistory) => paymentHistory.order)
   paymentHistory: OrderItem[];
