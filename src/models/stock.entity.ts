@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -13,6 +14,9 @@ export class Stock extends BaseEntity {
   stock_id: number;
 
   @Column()
+  product_id: number;
+
+  @Column()
   quantity: number;
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
@@ -22,5 +26,6 @@ export class Stock extends BaseEntity {
   updated_at: Date;
 
   @ManyToOne(() => Product, (product) => product.stock)
+  @JoinColumn({ name: 'product_id' })
   product: Product;
 }

@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { Product } from '../models/product.entity';
 import { Stock } from '../models/stock.entity';
+import { ProductDB } from './interfaces/products.interface';
 
 @Injectable()
 export class ProductsRepository {
@@ -12,4 +13,35 @@ export class ProductsRepository {
     @InjectRepository(Product)
     private stockRepository: Repository<Stock>,
   ) {}
+
+  private _buildProductEntity(product: ProductDB) {
+    const productEntity = new Product();
+    productEntity.product_name = product.product_name;
+    productEntity.product_description = product.product_description;
+    productEntity.product_price = product.product_price;
+    return productEntity;
+  }
+
+  async addProductAndUpdateStock(productToSave: ProductDB) {
+    try {
+      return this.productRepository.manager.transaction(
+        async (transaction: EntityManager) => {
+          const productEntity = this._buildProductEntity(productToSave);
+          const savedProduct = await transaction.save(productEntity);
+
+          await transaction.save(Stock, {
+            product_id: savedProduct.product_id,
+            quantity: productToSave.quantity,
+          });
+
+          return savedProduct;
+        },
+      );
+    } catch (err) {
+      Logger.error({
+        message: err.detail,
+        error: err.data,
+      });
+    }
+  }
 }
