@@ -5,6 +5,7 @@ import { OrderItem } from '../models/order-items.entity';
 import { OrderStatusHistory } from '../models/order-status-history.entity';
 import { OrderStatus } from '../models/order-status.entity';
 import { Order } from '../models/order.entity';
+import { OrderDB } from './interfaces/orders.interface';
 
 @Injectable()
 export class OrdersRepository {
@@ -18,4 +19,6 @@ export class OrdersRepository {
     @InjectRepository(OrderStatusHistory)
     private orderStatusHistoryRepository: Repository<OrderStatusHistory>,
   ) {}
+
+  async createOrder(order: OrderDB) {}
 }
