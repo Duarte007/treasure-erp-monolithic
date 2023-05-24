@@ -18,8 +18,9 @@ async function bootstrap() {
   app.use(morgan('dev'));
   app.useGlobalPipes(new ValidationPipe());
 
-  await app.listen(3000).then(() => {
-    Logger.log(`>>>>> API running on port ${3000}`);
+  const port = +process.env.PORT || 3000;
+  await app.listen(port).then(() => {
+    Logger.log(`>>>>> API running on port ${port}`);
   });
 }
 bootstrap();
