@@ -44,4 +44,8 @@ export class ProductsRepository {
       });
     }
   }
+
+  async findAll(): Promise<Product[]> {
+    return this.productRepository.find();
+  }
 }
