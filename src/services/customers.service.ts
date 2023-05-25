@@ -1,26 +1,54 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCustomerDto } from '../controllers/dto/create-customer.dto';
-import { UpdateCustomerDto } from '../controllers/dto/update-customer.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CustomerAdapter } from '../adapters/customer.adapter';
+import { CreateCustomerDTO } from '../controllers/dto/create-customer.dto';
+import { Address } from '../models/address.entity';
+import { Customer } from '../models/customer.entity';
+import { AddressesRepository } from '../repositories/addresses.repository';
+import { CustomersRepository } from '../repositories/customer.repository';
 
 @Injectable()
 export class CustomersService {
-  create(createCustomerDto: CreateCustomerDto) {
-    return 'This action adds a new customer';
+  constructor(
+    private customersRepository: CustomersRepository,
+    private addressRepository: AddressesRepository,
+  ) {}
+
+  async create(customerData: CreateCustomerDTO): Promise<Customer> {
+    const address = await this.addressRepository.getAddressById(
+      customerData.address.id,
+    );
+
+    if (!address) throw new NotFoundException('Address not found');
+
+    const customerToSave = CustomerAdapter.toDatabase(customerData);
+    return this.customersRepository.createCustomer(customerToSave, address);
   }
 
-  findAll() {
-    return `This action returns all customers`;
+  async update(
+    id: number,
+    customerData: Partial<CreateCustomerDTO>,
+  ): Promise<Customer> {
+    let address: Address;
+    if (customerData?.address?.id) {
+      address = await this.addressRepository.getAddressById(
+        customerData.address.id,
+      );
+
+      if (!address) throw new NotFoundException('Address not found');
+    }
+    const customerToSave = CustomerAdapter.toDatabase(customerData);
+    return this.customersRepository.updateCustomer(id, customerToSave, address);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  async delete(id: number): Promise<void> {
+    await this.customersRepository.deleteCustomer(id);
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
+  async findOne(id: number): Promise<Customer> {
+    return this.customersRepository.getCustomerById(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
+  async findAll(): Promise<Customer[]> {
+    return this.customersRepository.getAllCustomers();
   }
 }
