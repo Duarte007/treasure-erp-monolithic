@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CustomersService } from '../services/customers.service';
-import { CreateCustomerDto } from './dto/create-customer.dto';
-import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { CreateCustomerDTO } from './dto/create-customer.dto';
+import { UpdateCustomerDTO } from './dto/update-customer.dto';
 
 @Controller('customers')
 @ApiTags('customers')
@@ -18,7 +18,7 @@ export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 
   @Post()
-  create(@Body() createCustomerDto: CreateCustomerDto) {
+  create(@Body() createCustomerDto: CreateCustomerDTO) {
     return this.customersService.create(createCustomerDto);
   }
 
@@ -35,7 +35,7 @@ export class CustomersController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateCustomerDto: UpdateCustomerDto,
+    @Body() updateCustomerDto: UpdateCustomerDTO,
   ) {
     return this.customersService.update(+id, updateCustomerDto);
   }

@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AddressesService } from '../services/addresses.service';
-import { CreateAddressDto } from './dto/create-address.dto';
+import { CreateAddressDTO } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 
 @Controller('addresses')
@@ -18,7 +18,7 @@ export class AddressesController {
   constructor(private readonly addressesService: AddressesService) {}
 
   @Post()
-  create(@Body() createAddressDto: CreateAddressDto) {
+  create(@Body() createAddressDto: CreateAddressDTO) {
     return this.addressesService.create(createAddressDto);
   }
 

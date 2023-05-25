@@ -27,5 +27,13 @@ export class Customer extends BaseEntity {
 
   @ManyToOne(() => Address)
   @JoinColumn({ name: 'address_id' })
-  address: Address;
+  address?: Address;
+}
+
+export interface CustomerRecord {
+  customer_name: string;
+  customer_document: string;
+  customer_email: string;
+  customer_phone: string;
+  address_id: number;
 }

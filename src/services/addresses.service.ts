@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAddressDto } from '../controllers/dto/create-address.dto';
+import { CreateAddressDTO } from '../controllers/dto/create-address.dto';
 import { UpdateAddressDto } from '../controllers/dto/update-address.dto';
 import { AddressesRepository } from '../repositories/addresses.repository';
 
@@ -7,7 +7,7 @@ import { AddressesRepository } from '../repositories/addresses.repository';
 export class AddressesService {
   constructor(private addressesRepository: AddressesRepository) {}
 
-  create(createAddressDto: CreateAddressDto) {
+  create(createAddressDto: CreateAddressDTO) {
     return this.addressesRepository.createAddress(createAddressDto);
   }
 
