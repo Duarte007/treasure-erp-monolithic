@@ -2,7 +2,7 @@ import { CreateOrderDTO } from '../controllers/dto/create-orders.dto';
 import { PaymentRecord } from '../models/payment.entity';
 
 export class PaymentsAdapter {
-  static fromOrderEventToDatabase(
+  static fromOrderDTOToDatabase(
     orderData: CreateOrderDTO,
     orderId: number,
   ): PaymentRecord {
