@@ -2,26 +2,38 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDateString,
   IsDefined,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsString,
   ValidateNested,
 } from 'class-validator';
+import { PaymentMethodsEnum } from '../../models/payment-methods.entity';
 
 export class OrderItemsDTO {
   @ApiProperty()
   @IsNumber()
   @IsNotEmpty()
   @IsDefined()
-  id: number;
+  product_id: number;
   @ApiProperty()
   @IsNumber()
   @IsNotEmpty()
   @IsDefined()
   quantity: number;
+  @ApiProperty()
+  @IsNumber()
+  @IsNotEmpty()
+  @IsDefined()
+  price: number;
 }
 
 export class OrderCustomerDTO {
+  @ApiProperty()
+  @IsNumber()
+  @IsDefined()
+  @IsNotEmpty()
+  customer_id: number;
   @ApiProperty()
   @IsString()
   @IsDefined()
@@ -30,11 +42,11 @@ export class OrderCustomerDTO {
 }
 
 export class OrderPaymentDTO {
-  @ApiProperty()
-  @IsString()
+  @ApiProperty({ enum: PaymentMethodsEnum })
+  @IsEnum(PaymentMethodsEnum)
   @IsDefined()
   @IsNotEmpty()
-  method: string;
+  method: PaymentMethodsEnum;
   @ApiProperty()
   @IsDefined()
   @IsNumber()
@@ -48,18 +60,18 @@ export class OrderPaymentDTO {
 }
 
 export class CreateOrderDTO {
-  @ApiProperty()
+  @ApiProperty({ type: OrderCustomerDTO })
   @IsDefined()
   @ValidateNested()
   customer: OrderCustomerDTO;
-  @ApiProperty()
+  @ApiProperty({ type: OrderPaymentDTO })
   @IsDefined()
   @ValidateNested()
   payment: OrderPaymentDTO;
-  @ApiProperty()
+  @ApiProperty({ type: OrderItemsDTO, isArray: true })
   @IsDefined()
   @ValidateNested()
-  items: OrderItemsDTO;
+  items: OrderItemsDTO[];
   @ApiProperty()
   @IsDefined()
   @IsDateString()

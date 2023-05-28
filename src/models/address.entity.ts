@@ -24,3 +24,13 @@ export class Address extends BaseEntity {
   @Column()
   country: string;
 }
+
+export interface AddressRecord {
+  address_id?: number;
+  street: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  country: string;
+}

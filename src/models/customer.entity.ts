@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Address } from './address.entity';
+import { Address, AddressRecord } from './address.entity';
 import { BaseEntity } from './base.entity';
 
 @Entity({ name: 'customers' })
@@ -35,5 +35,5 @@ export interface CustomerRecord {
   customer_document: string;
   customer_email: string;
   customer_phone: string;
-  address_id: number;
+  address: AddressRecord;
 }

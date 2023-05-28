@@ -12,3 +12,14 @@ export class PaymentMethod extends BaseEntity {
   @Column()
   payment_method_description: string;
 }
+
+export enum PaymentMethodsEnum {
+  CASH = 1,
+  CREDIT_CARD = 2,
+  DEBIT_CARD = 3,
+  BANK_TRANSFER = 4,
+  PAYPAL = 5,
+  ONLINE_WALLET = 6,
+  CRYPTOCURRENCY = 7,
+  GIFT_CARD = 8,
+}

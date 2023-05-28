@@ -22,9 +22,15 @@ export class Order extends BaseEntity {
   @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 
+  @Column()
+  customer_id: number;
+
   @ManyToOne(() => OrderStatus)
   @JoinColumn({ name: 'order_status_id' })
   orderStatus: OrderStatus;
+
+  @Column()
+  order_status_id: number;
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
   orderItems: OrderItem[];
@@ -40,4 +46,22 @@ export class Order extends BaseEntity {
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   order_total: number;
+}
+
+export class OrderItemsRecord {
+  product_id: number;
+  quantity: number;
+  price: number;
+}
+
+export class OrderCustomerRecord {
+  customer_id: number;
+}
+
+export class OrderRecord {
+  order_id?: number;
+  customer: OrderCustomerRecord;
+  items: OrderItemsRecord[];
+  date: Date;
+  value: number;
 }
