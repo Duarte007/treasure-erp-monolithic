@@ -1,17 +1,31 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsDefined,
-  IsNumber,
-  IsObject,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsDefined, IsObject, IsString, ValidateNested } from 'class-validator';
 
 export class CustomerAddressDTO {
   @ApiProperty()
+  @IsString()
   @IsDefined()
-  @IsNumber()
-  id: number;
+  street: string;
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
+  neighborhood: string;
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
+  city: string;
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
+  state: string;
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
+  postal_code: string;
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
+  country: string;
 }
 
 export class CreateCustomerDTO {
