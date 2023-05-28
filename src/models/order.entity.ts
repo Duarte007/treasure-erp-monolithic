@@ -38,9 +38,6 @@ export class Order extends BaseEntity {
   @OneToMany(() => Payment, (payment) => payment.order)
   payments: Payment[];
 
-  @Column()
-  payment_id: number;
-
   @OneToMany(() => PaymentHistory, (paymentHistory) => paymentHistory.order)
   paymentHistory: OrderItem[];
 

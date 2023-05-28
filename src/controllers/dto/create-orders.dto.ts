@@ -2,11 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDateString,
   IsDefined,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsString,
   ValidateNested,
 } from 'class-validator';
+import { PaymentMethodsEnum } from '../../models/payment-methods.entity';
 
 export class OrderItemsDTO {
   @ApiProperty()
@@ -40,11 +42,11 @@ export class OrderCustomerDTO {
 }
 
 export class OrderPaymentDTO {
-  @ApiProperty()
-  @IsString()
+  @ApiProperty({ enum: PaymentMethodsEnum })
+  @IsEnum(PaymentMethodsEnum)
   @IsDefined()
   @IsNotEmpty()
-  method: string;
+  method: PaymentMethodsEnum;
   @ApiProperty()
   @IsDefined()
   @IsNumber()

@@ -19,11 +19,9 @@ export class OrdersRepository {
     private orderStatusHistoryRepository: Repository<OrderStatusHistory>,
   ) {}
 
-  // @TODO: Remover opcional do paymentId
-  private _buildOrderEntity(order: OrderRecord, paymentId?: number) {
+  private _buildOrderEntity(order: OrderRecord) {
     const orderEntity = new Order();
     orderEntity.customer_id = order.customer.customer_id;
-    orderEntity.payment_id = paymentId;
     orderEntity.order_status_id = OrderStatusEnum.PENDING;
     orderEntity.order_date = order.date;
     orderEntity.order_total = order.value;
